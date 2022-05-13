@@ -1,0 +1,1 @@
+docker run -it -p 8080:8080 -p 8081:8081 --name mar -v /home/ubuntu/model-store:/home/model-server/model-store --gpus all c4d566a308c4
