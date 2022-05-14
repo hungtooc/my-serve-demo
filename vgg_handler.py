@@ -12,7 +12,8 @@ from captum.attr import IntegratedGradients
 from ts.torch_handler.base_handler import BaseHandler
 
 from ts.utils.util import PredictionException
-from .utils import numpy_to_base64_String
+from image_utils import numpy_to_base64_String
+
 from abc import ABC
 from PIL import Image
 import base64
@@ -25,6 +26,7 @@ if packaging.version.parse(torch.__version__) >= packaging.version.parse("1.8.1"
     PROFILER_AVAILABLE = True
 else:
     PROFILER_AVAILABLE = False
+
 
 class VGGImageClassifier(BaseHandler, ABC):
     """
@@ -42,6 +44,14 @@ class VGGImageClassifier(BaseHandler, ABC):
         transforms.Normalize(mean=[0.485, 0.456, 0.406],
                              std=[0.229, 0.224, 0.225])
     ])
+    # @staticmethod
+    # def numpy_to_base64_String(image):
+    #     pil_image = Image.fromarray(image)
+    #     rawBytes = io.BytesIO()
+    #     pil_image.save(rawBytes, "PNG")
+    #     rawBytes.seek(0)
+    #     img_base64 = base64.b64encode(rawBytes.getvalue())
+    #     return img_base64.decode()
 
     def set_max_result_classes(self, topk):
         self.topk = topk
@@ -65,10 +75,10 @@ class VGGImageClassifier(BaseHandler, ABC):
 
         if log['read_image']:
             try:
-                base64_image = numpy_to_base64_String(image)
+                base64_image = numpy_to_base64_String(image) # VGGImageClassifier.
                 
-            except:
-                raise PredictionException("cannot convert image to base64", 513)
+            except Exception as e:
+                raise e
 
             log['base64_image'] = base64_image
         try:
