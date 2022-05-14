@@ -1,0 +1,11 @@
+list models: 
+curl "http://localhost:8081/models"
+
+register model
+curl -X POST  "http://localhost:8081/models?url=model_name.mar
+
+unregister model: 
+curl -X DELETE http://localhost:8081/models/
+
+Scale workers
+curl -v -X PUT "http://localhost:8081/models/model_name?min_worker=1"
